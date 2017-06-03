@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tab</title>
+	<meta charset="utf-8" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+	<style>
+.slider{width:600px; height: 300px; float:left;position: relative; overflow: hidden}
+.slider ul{list-style-type: none;transition: all linear 0.5s;padding:0;margin:0; position: relative;overflow: hidden}
+.slider ul li{width:600px; float:left;}
+.slider ul li img{width: 100%;}
+.left_arr{width:25px; height: 25px;background: url('img/oddnaari_leftright_it_widget.png') no-repeat; position: absolute;left:0;top:50%; z-index: 111;transform: translateY(-50%);box-shadow: 0 0 2px #fff; cursor: pointer;}
+.right_arr{width:25px; height: 25px;background: url('img/oddnaari_leftright_it_widget.png') -25px no-repeat; position: absolute;right:0;top:50%; z-index: 111;transform: translateY(-50%);box-shadow: 0 0 2px #fff;cursor: pointer;}
+.box_sld{width:100%;float: left; position: relative;}
+.img_cont{width:100%; float: left;}
+.caption_cont{background: #000; color: #fff; position: absolute;bottom: 0;z-index:111;box-sizing: border-box;padding:10px;width:100%;}
+</style>
+</head>
+<body ng-app="myapp">
+
+
+<div class="maincontainer" ng-controller="myctrl">
+
+<div class="slider">
+<span class="left_arr" ng-click="leftClick()"></span>
+<ul class="sld_belt" id="sld_belt" style="width:{{totwidth}}px;left:{{left1}}px">
+<li ng-repeat="i in imgElement">
+<div class="box_sld">
+	<div class="img_cont"><img src="{{i.img}}" alt="{{i.caption}}" class="img_data" /></div>
+	<div class="caption_cont">{{i.caption}} -- {{$index+1}}</div>
+</div>
+</li>   
+</ul>
+<span class="right_arr" ng-click="rightClick()"></span>
+</div>
+
+<br><br>
+<!--<div style="width:100%">
+
+width: {{widthsld}}<br>
+Length: {{lengthsld}}<br>
+{{length}}
+</div> -->
+
+</div>
+
+<script src="assets/js/angular.js"></script>
+
+
+<script>
+
+var widthsld = document.getElementById('sld_belt').children[0].offsetWidth;
+
+console.log("Width:" + widthsld);
+
+var app = angular.module('myapp', []);                            
+app.service('slideranim', function(){
+	this.slideLeft = function(){
+
+}
+})
+app.controller('myctrl',function($scope){
+
+$scope.imgElement = [
+{img:"http://media2.intoday.in/indiatoday/images/stories/kohli_647_041917124154.jpg",caption:"C1"},
+{img:"http://media2.intoday.in/indiatoday/images/stories/slims-river-vanish---story_647_041817092508.jpg",caption:"C2"},
+{img:"http://media2.intoday.in/indiatoday/images/stories/rtx2dczj_559_041917105037.jpg",caption:"C3"},
+{img:"http://media2.intoday.in/indiatoday/images/stories/upfront-1-3-apr24-1_647_041317044902.jpg",caption:"C4"}
+];
+
+$scope.widthsld = widthsld;
+$scope.lengthsld = $scope.imgElement.length;  
+$scope.totwidth = $scope.widthsld * $scope.lengthsld;
+$scope.count = 1;
+$scope.left1 = 0;
+
+$scope.rightClick = function(){
+    if($scope.count < $scope.lengthsld){
+    	$scope.left1= $scope.left1 - widthsld;   
+    	$scope.count++;
+    }
+    else
+    {
+
+    }
+}
+
+$scope.leftClick = function(){
+	if($scope.count == 1){
+
+	}
+	else
+	{
+	$scope.left1= $scope.left1 + widthsld; 	
+	$scope.count--;
+	}
+}
+
+})
+</script>
+</body>
+</html>

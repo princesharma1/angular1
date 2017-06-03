@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Slider</title>
+	<meta charset="utf-8" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+<style>
+*{margin: 0;padding:0;}
+body{letter-spacing: 0.6px; padding: 20px;line-height: 26px;}
+.tab_container{width:100%;float: left; font-family: arial; }
+.tab_container .tab_hd_cont{width:100%;float: left; font-size:18px;}
+.tab_container .tab_hd_cont ul#tab_hd{ list-style-type: none;padding:0;margin:0; }
+.tab_container .tab_hd_cont ul#tab_hd li{border:1px solid #ccc;float: left; padding: 5px 10px; cursor: pointer; background: #f9f9f9; position: relative;top:2px;border-top: 1px solid #eee;    border-radius: 6px;border-bottom-left-radius: 0; border-bottom-right-radius: 0;}
+
+.tab_container .tab_hd_cont ul#tab_hd li.active{background:#fff;border-bottom: 0;border-top: 1px solid #ccc;}
+.tab_container .tab_data_cont{width:100%;float: left;font-size:16px;}
+.tab_container .tab_data_cont ul#tab_data{list-style-type: none;padding:0;margin:0; }
+.tab_container .tab_data_cont ul#tab_data li{border:1px solid #ccc; background: #fff; padding:10px;     display: inline-block;box-shadow: 0 0 3px #ccc;}
+.tab_container .tab_data_cont ul#tab_data li img{float: left; margin: 10px;}
+/* li.active_tb{border-bottom: 1px solid #c00 !important;}
+li.active_cont{display:block !important;} */
+</style>
+</head>
+<body ng-app="myapp" ng-controller="ctrl">
+
+<div class="tab_container">
+<div class="tab_hd_cont">
+	<ul id="tab_hd">
+		<li ng-class="{active: isSet(1)}" ng-click="setTab(1)">Tab1</li>
+		<li ng-class="{active: isSet(2)}" ng-click="setTab(2)">Tab2</li>
+		<li ng-class="{active: isSet(3)}" ng-click="setTab(3)">Tab3</li>
+		<li ng-class="{active: isSet(4)}" ng-click="setTab(4)">Tab4</li>
+
+	</ul>
+
+</div>
+<div class="tab_data_cont">
+	<ul id="tab_data">
+
+		<li ng-show="isSet(1)"><img src="{{tabContentData[0].img}}" alt="" />{{tabContentData[0].tab1}}</li>
+		<li ng-show="isSet(2)"><img src="{{tabContentData[1].img}}" alt="" />{{tabContentData[1].tab2}}</li>
+		<li ng-show="isSet(3)"><img src="{{tabContentData[2].img}}" alt="" />{{tabContentData[2].tab3}}</li>
+		<li ng-show="isSet(4)"><img src="{{tabContentData[3].img}}" alt="" />{{tabContentData[3].tab4}}</li>       
+
+	</ul>
+
+</div>
+
+</div>
+{{tabContentData.tab}}
+
+<script src="assets/js/angular.js"></script>
+
+<script>
+var app = angular.module('myapp', []);
+app.controller('ctrl',  function($scope){
+	$scope.tab = 1;
+	$scope.tabContentData = [
+	{tab1:"The extradition of money laundering accused Vijay Mallya from the United Kingdom would take a minimum of 6 to 12 months, according to senior officials of the Enforcement Directorate (ED).We are not disheartened with the release of Mallya on bail. We are looking at the development as one step closer to bringing him back to India, but yes, it is a long way to go, an official from the agency said.It would not be an easy process for the investigative agencies and the central government to get Mallya back. At least, a dozen hearings would take place in the local court, with the option of moving the higher courts in the UK itself.For the last two days, speculation have been doing the rounds that a special team of CBI and ED officials would visit London to appear before the Westminster Magistrates' Court for an extradition hearing against Mallya.",img:"http://media2.intoday.in/indiatoday/images/Photo_gallery/cartoon_180_050317081405.jpg"},
+	{tab2:"Samar, a Model Town resident, was accompanied by two of his friends, including one named Ujjwal, whose father owns the i20 car that was involved in the accident. The three boys initially tried to flee, but were nabbed by Delhi Police. ",img:"http://media2.intoday.in/indiatoday/images/stories/anthem180_121216112458_041917045223.jpg"},
+	{tab3:"These both senior Congress leaders had to resign from their Gubernatorial offices after prima facie evidence against them in the Hawala scandal was found. Motilal Vora, senior Congress leader and former Madhya Pradesh chief minister was Uttar Pradesh's Governor, while P Shiv Shankar, former law minister of Indira Gandhi, was Kerala's Governor. According to the book, Democracy in India By Shree Govind Mishra, Vora and Shiv Shankar faxed their resignations to the President of India in the night of May 1, 1996 after the CBI told the Supreme Court that the constitutional immunity was the only reason that they could not be charge-sheeted. Their resignations were accepted and May 3, 1996 was their last day in their respective Raj Bhavans though both of them, along with many others named, were later acquitted from the Hawala case due to lack of evidence.",img:"http://media2.intoday.in/indiatoday/images/stories/slims-river-vanish---story_180_041817092508.jpg"},
+	{tab4:"Before Baahubali 2, pro-Kannada groups call for Karnataka bandh to protest release Several housing projects along Yamuna Expressway stalled. Is your builder out of the loop? Twenty four hours have passed since the Supreme Court decision came to revive the conspiracy charge against senior BJP leaders LK Advani, MM Joshi, Uma Bharti, Kalyan Singh, Vinay Katiyar and others in the Babri Masjid demolition case.After the Supreme Court ruling came, Joshi went to meet Advani; Uma Bharti said there was no conspiracy and everything was done openly and she was ready to go to jail or face ",img:"http://media2.intoday.in/indiatoday/images/stories/kicker_032717044218_041517014103-180_041717093520.jpg"}
+	];
+	$scope.setTab = function(newTab){
+		$scope.tab = newTab;
+	};
+
+	$scope.isSet = function(tabNum){
+		return $scope.tab === tabNum;
+	}
+})
+</script>
+
+</body>
+</html>

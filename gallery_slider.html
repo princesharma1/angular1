@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Slider Gallery</title>
+<script src="assets/js/angular.js"></script>
+<style>
+*{margin:0;padding:0;}
+
+body{letter-spacing: 0.6px; padding: 20px;line-height: 26px;}
+.gallery_slider_container{width:600px;}
+.gallery_slider_container .gallery_slider{border:2px solid #ccc;width:600px; height: 300px; position: relative;overflow:hidden;}
+.gallery_slider_container .gallery_slider ul#gal_slider{ transition: all linear 0.5s;list-style-type: none;padding:0;margin:0; position: relative; overflow:hidden; }
+.gallery_slider_container .gallery_slider ul#gal_slider li{ float: left;width:600px; } 
+.gallery_slider_container .gallery_slider ul#gal_slider li img{width:100%;}
+#prev{width:46px; height: 74px; position: absolute; top: 50%;left:0;transform: translateY(-50%);background: url("img/prev_arrow01.png"); cursor: pointer;}
+#next{width:54px; height: 74px; position: absolute; top: 50%;right:0;transform: translateY(-50%);background: url("img/next_arrow01.png"); cursor: pointer;}
+
+.gallery_slider_container  .gallery_slider_thumb{width: 600px; height: 72px; overflow:hidden; border: 2px solid #fff; background: #f1f1f1;}
+.gallery_slider_container  .gallery_slider_thumb ul#gal_slider_thumb{list-style-type: none;padding:0;margin:0; position: relative;}
+.gallery_slider_container  .gallery_slider_thumb ul#gal_slider_thumb li{width:80px; height:52px; float: left; margin: 10px; cursor: pointer;}
+.gallery_slider_container  .gallery_slider_thumb ul#gal_slider_thumb li img{width:100%; float: left;  height: 52px;}
+
+.gallery_slider_container  .gallery_slider_thumb ul#gal_slider_thumb li.active_sld{border:2px solid #c00;}
+</style>
+</head>
+<body ng-app="myapp" ng-controller="ctrl">
+
+<div class="gallery_slider_container">
+<div class="gallery_slider">
+
+<ul id="gal_slider" style="width:{{totWidth}}px;left:{{left}}px">
+	<li ng-repeat="img1 in imgElement" tbindex_gal="{{$index}}" ng-class='rowClass(img1, $index)'>
+		<img src="{{MEDIA_URL}}{{img1.img}}" alt="{{img1.caption}}" />
+
+	</li>
+
+</ul>
+<span id="prev" ng-click="leftClick()"></span>
+<span id="next" class="aaaa" ng-click="rightClick();func1($index)"></span>
+</div>
+
+<input type="hidden" value="0" ng-model="val1" id="val1" />
+<div class="gallery_slider_thumb">
+<ul id="gal_slider_thumb">
+	<li ng-repeat="img1 in imgElement" tbindex_thumb="{{$index}}" ng-click="currslide($index)" ng-class='rowClass(img1, $index)'><img src="{{MEDIA_URL}}{{img1.img}}" alt="{{img1.caption}}" /></li>
+</ul>
+
+</div>
+
+
+</div>
+
+
+<script>
+var width =  document.getElementById('gal_slider').children[0].offsetWidth;
+var m1,m2;
+var app = angular.module('myapp', []);
+
+app.controller('ctrl', function($scope){
+	$scope.MEDIA_URL = "http://media2.intoday.in/indiatoday/images/stories/";
+	$scope.imgElement=[
+	{img:"kohli_647_041917124154.jpg",caption:"C1"},
+	{img:"slims-river-vanish---story_647_041817092508.jpg",caption:"C2"},
+	{img:"rtx2dczj_559_041917105037.jpg",caption:"C3"},
+	{img:"upfront-1-3-apr24-1_647_041317044902.jpg",caption:"C4"}
+	];
+     
+  /*  $scope.setTab = function(){
+    	$scope.tab = newTab;
+    } 
+    $scope.isSet = function(tabNum){
+    	return $scope.tab === tabNum
+    }*/
+
+
+	$scope.width = width;
+	$scope.length = $scope.imgElement.length;
+	$scope.totWidth = $scope.width*$scope.length;
+
+	$scope.count=1;
+	$scope.left=0;
+    
+    $scope.itr = document.getElementById('val1').value;
+
+    $scope.func1 = function(aa1){
+    	 $scope.itr = aa1;
+		//console.log("------" + $scope.itr);
+    }
+	$scope.rowClass = function(item,index){
+		if(index==0){
+			return "active_sld";
+		}
+		return "";
+
+	}
+    $scope.currslide = function(index){
+       
+      if($scope.count<$scope.length)
+      {
+       $scope.left = - index*width;
+       
+       angular.element(document.getElementById('gal_slider').getElementsByTagName('li')).removeClass('active_sld');
+          m1 = angular.element(document.getElementById('gal_slider').getElementsByTagName('li')[index]);
+		m1.addClass('active_sld');	
+
+		  angular.element(document.getElementById('gal_slider_thumb').getElementsByTagName('li')).removeClass('active_sld');
+	  m2 = angular.element(document.getElementById('gal_slider_thumb').getElementsByTagName('li')[index]);
+		m2.addClass('active_sld');	
+      
+		console.log(" ----> " +index + "--" +  $scope.left);
+		$scope.count = index+1;
+      }
+      else
+      {
+		$scope.left = index*width;
+
+		angular.element(document.getElementById('gal_slider').getElementsByTagName('li')).removeClass('active_sld');
+		m1 = angular.element(document.getElementById('gal_slider').getElementsByTagName('li')[index]);
+		m1.addClass('active_sld');	
+
+		angular.element(document.getElementById('gal_slider_thumb').getElementsByTagName('li')).removeClass('active_sld');
+		m2 = angular.element(document.getElementById('gal_slider_thumb').getElementsByTagName('li')[index]);
+		m2.addClass('active_sld');	
+
+		console.log(" ----> " + $scope.left);
+		$scope.count = index-1;
+		
+      }
+         
+   
+    }
+
+	$scope.rightClick = function(){
+		
+
+      if($scope.count<$scope.length)
+      {
+      angular.element(document.getElementById('gal_slider').getElementsByTagName('li')).removeClass('active_sld');
+		m1 = angular.element(document.getElementById('gal_slider').getElementsByTagName('li')[$scope.count]);
+		m1.addClass('active_sld');	
+
+		angular.element(document.getElementById('gal_slider_thumb').getElementsByTagName('li')).removeClass('active_sld');
+		m2 = angular.element(document.getElementById('gal_slider_thumb').getElementsByTagName('li')[$scope.count]);
+		m2.addClass('active_sld');	
+//console.log("if:-" + $scope.count);
+       $scope.left = $scope.left-width;
+       $scope.count++;
+      }else{
+      //console.log("else:-" + $scope.count);
+  }
+	}
+
+	$scope.leftClick = function(){
+        if($scope.count==1){
+//console.log("if:-" + $scope.count);
+
+
+        }else{
+
+		//console.log("else:-" + $scope.count);
+	angular.element(document.getElementById('gal_slider').getElementsByTagName('li')).removeClass('active_sld');
+			var m1 = angular.element(document.getElementById('gal_slider').getElementsByTagName('li')[$scope.count]);
+			m1.addClass('active_sld');	
+
+		angular.element(document.getElementById('gal_slider_thumb').getElementsByTagName('li')).removeClass('active_sld');
+	    m2 = angular.element(document.getElementById('gal_slider_thumb').getElementsByTagName('li')[$scope.count-2]);
+		m2.addClass('active_sld');	
+
+        	$scope.left = $scope.left+width;
+        	$scope.count--;
+
+
+        }
+	}
+})
+</script>
+
+</body>
+</html>
